@@ -20,3 +20,4 @@ describe("When a service card is created", () => {
     expect(contentElement).toBeInTheDocument();
   });
 });
+

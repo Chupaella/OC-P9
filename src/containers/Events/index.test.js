@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+﻿import { fireEvent, render, screen } from "@testing-library/react";
 import { api, DataProvider } from "../../contexts/DataContext";
 import Events from "./index";
 
@@ -6,19 +6,19 @@ const data = {
   events: [
     {
       id: 1,
-      type: "soirée entreprise",
+      type: "soiree entreprise",
       date: "2022-04-29T20:28:45.744Z",
-      title: "Conférence #productCON",
+      title: "Conference #productCON",
       cover: "/images/stem-list-EVgsAbL51Rk-unsplash.png",
       description:
-        "Présentation des outils analytics aux professionnels du secteur",
+        "Presentation des outils analytics aux professionnels du secteur",
       nb_guesses: 1300,
-      periode: "24-25-26 Février",
+      periode: "24-25-26 Fevrier",
       prestations: [
-        "1 espace d’exposition",
-        "1 scéne principale",
+        "1 espace d'exposition",
+        "1 scene principale",
         "2 espaces de restaurations",
-        "1 site web dédié",
+        "1 site web dedie",
       ],
     },
 
@@ -29,10 +29,10 @@ const data = {
       title: "Forum #productCON",
       cover: "/images/stem-list-EVgsAbL51Rk-unsplash.png",
       description:
-        "Présentation des outils analytics aux professionnels du secteur",
+        "Presentation des outils analytics aux professionnels du secteur",
       nb_guesses: 1300,
-      periode: "24-25-26 Février",
-      prestations: ["1 espace d’exposition", "1 scéne principale"],
+      periode: "24-25-26 Fevrier",
+      prestations: ["1 espace d'exposition", "1 scene principale"],
     },
   ],
 };
@@ -45,7 +45,8 @@ describe("When Events is created", () => {
         <Events />
       </DataProvider>
     );
-    await screen.findByText("avril");
+    const months = await screen.findAllByText("avril");
+    expect(months.length).toBeGreaterThan(0);
   });
   describe("and an error occured", () => {
     it("an error message is displayed", async () => {
@@ -59,7 +60,7 @@ describe("When Events is created", () => {
     });
   });
   describe("and we select a category", () => {
-    it.only("an filtered list is displayed", async () => {
+    it("an filtered list is displayed", async () => {
       api.loadData = jest.fn().mockReturnValue(data);
       render(
         <DataProvider>
@@ -75,14 +76,14 @@ describe("When Events is created", () => {
         })
       );
       fireEvent(
-        (await screen.findAllByText("soirée entreprise"))[0],
+        (await screen.findAllByText("soiree entreprise"))[0],
         new MouseEvent("click", {
           cancelable: true,
           bubbles: true,
         })
       );
 
-      await screen.findByText("Conférence #productCON");
+      await screen.findByText("Conference #productCON");
       expect(screen.queryByText("Forum #productCON")).not.toBeInTheDocument();
     });
   });
@@ -97,15 +98,15 @@ describe("When Events is created", () => {
       );
 
       fireEvent(
-        await screen.findByText("Conférence #productCON"),
+        await screen.findByText("Conference #productCON"),
         new MouseEvent("click", {
           cancelable: true,
           bubbles: true,
         })
       );
 
-      await screen.findByText("24-25-26 Février");
-      await screen.findByText("1 site web dédié");
+      await screen.findByText("24-25-26 Fevrier");
+      await screen.findByText("1 site web dedie");
     });
   });
 });

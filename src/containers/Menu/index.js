@@ -1,4 +1,4 @@
-/* eslint-disable no-return-assign */
+﻿/* eslint-disable no-return-assign */
 import Button from "../../components/Button";
 import Logo from "../../components/Logo";
 
@@ -12,10 +12,10 @@ const Menu = () => (
         <a href="#nos-services">Nos services</a>
       </li>
       <li>
-        <a href="#nos-realisations">Nos réalisations</a>
+        <a href="#nos-realisations">Nos realisations</a>
       </li>
       <li>
-        <a href="#notre-equipe">Notre équipe</a>
+        <a href="#notre-equipe">Notre equipe</a>
       </li>
     </ul>
     <Button title="contact" onClick={() => (window.document.location.hash = "#contact")}>

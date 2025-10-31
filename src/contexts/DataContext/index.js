@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -19,25 +20,45 @@ export const api = {
 export const DataProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
   const getData = useCallback(async () => {
     try {
-      setData(await api.loadData());
+      setLoading(true);
+      const payload = await api.loadData();
+      setData(payload);
+      setError(null);
     } catch (err) {
-      setError(err);
+      const message =
+        err instanceof Error ? err.message : String(err ?? "Unknown error");
+      setError(message);
+      setData(null);
+    } finally {
+      setLoading(false);
     }
   }, []);
   useEffect(() => {
-    if (data) return;
     getData();
-  });
-  
+  }, [getData]);
+  const contextValue = useMemo(() => {
+    const events = data?.events ?? [];
+    const focus = data?.focus ?? [];
+    const last = events.reduce((latest, current) => {
+      if (!latest) return current;
+      return new Date(current.date) > new Date(latest.date) ? current : latest;
+    }, null);
+    return {
+      data,
+      events,
+      focus,
+      last,
+      error,
+      loading,
+    };
+  }, [data, error, loading]);
+
   return (
     <DataContext.Provider
-      // eslint-disable-next-line react/jsx-no-constructed-context-values
-      value={{
-        data,
-        error,
-      }}
+      value={contextValue}
     >
       {children}
     </DataContext.Provider>
@@ -51,3 +72,4 @@ DataProvider.propTypes = {
 export const useData = () => useContext(DataContext);
 
 export default DataContext;
+

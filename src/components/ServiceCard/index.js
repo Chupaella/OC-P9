@@ -22,3 +22,4 @@ ServiceCard.defaultProps = {
 }
 
 export default ServiceCard;
+

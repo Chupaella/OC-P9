@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+﻿import { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import Field, { FIELD_TYPES } from "../../components/Field";
 import Select from "../../components/Select";
@@ -15,10 +15,11 @@ const Form = ({ onSuccess, onError }) => {
       // We try to call mockContactApi
       try {
         await mockContactApi();
-        setSending(false);
+        onSuccess();
       } catch (err) {
-        setSending(false);
         onError(err);
+      } finally {
+        setSending(false);
       }
     },
     [onSuccess, onError]
@@ -28,11 +29,11 @@ const Form = ({ onSuccess, onError }) => {
       <div className="row">
         <div className="col">
           <Field placeholder="" label="Nom" />
-          <Field placeholder="" label="Prénom" />
+          <Field placeholder="" label="Prenom" />
           <Select
-            selection={["Personel", "Entreprise"]}
+            selection={["Personnel", "Entreprise"]}
             onChange={() => null}
-            label="Personel / Entreprise"
+            label="Personnel / Entreprise"
             type="large"
             titleEmpty
           />

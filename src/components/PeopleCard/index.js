@@ -26,3 +26,4 @@ PeopleCard.defaultProps = {
 }
 
 export default PeopleCard;
+

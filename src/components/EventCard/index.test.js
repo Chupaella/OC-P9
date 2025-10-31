@@ -46,3 +46,4 @@ describe("When a event card is created", () => {
     });
   });
 });
+
